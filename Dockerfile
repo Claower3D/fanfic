@@ -1,37 +1,26 @@
-# Build stage
-FROM node:22-bookworm-slim AS builder
+FROM node:22-bookworm-slim
 
 WORKDIR /app
 
-# Install build tools for better-sqlite3 compilation
-RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
+# Install native build tools for compiling better-sqlite3
+RUN apt-get update && apt-get install -y --no-install-recommends python3 make g++ \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY package*.json ./
+# Install npm dependencies
+COPY package.json package-lock.json ./
 RUN npm install
 
+# Copy source code and build frontend
 COPY . .
 RUN npm run build
 
-# Production runner stage
-FROM node:22-bookworm-slim AS runner
-
-WORKDIR /app
+# Runtime environment settings
 ENV NODE_ENV=production
 ENV PORT=3000
 ENV DATA_DIR=/app/data
 
-RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
-
-COPY package*.json ./
-RUN npm install --omit=dev
-
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/server ./server
-
-# Ensure database directory exists
+# Create data directory for SQLite
 RUN mkdir -p /app/data
-
-VOLUME ["/app/data"]
 
 EXPOSE 3000
 
