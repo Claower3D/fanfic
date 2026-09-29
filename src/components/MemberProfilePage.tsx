@@ -5,13 +5,8 @@ import {
   Gamepad2, 
   PenTool, 
   Quote, 
-  Flame, 
-  Heart, 
-  Eye, 
   Trash2, 
-  Sparkles,
-  Shield,
-  MessageSquare
+  Shield
 } from 'lucide-react';
 import { ServerMember, Story } from '../types';
 import { StoryCard } from './StoryCard';
@@ -38,7 +33,6 @@ export const MemberProfilePage: React.FC<MemberProfilePageProps> = ({
   onShareStory,
   onDeleteMember,
 }) => {
-  // Filter stories about this member
   const memberStories = stories.filter(s => 
     s.characters.includes(member.name) || 
     s.characters.includes(member.displayName) ||
@@ -50,18 +44,18 @@ export const MemberProfilePage: React.FC<MemberProfilePageProps> = ({
   const totalViews = memberStories.reduce((acc, s) => acc + s.views, 0);
 
   return (
-    <div className="flex-1 overflow-y-auto bg-[#313338] text-[#dbdee1] flex flex-col">
+    <div className="flex-1 overflow-y-auto bg-[#0c0d14] text-[#e2e8f0] flex flex-col bg-mesh">
       {/* Top Navigation */}
-      <div className="sticky top-0 z-20 bg-[#2b2d31]/95 backdrop-blur-md border-b border-[#1f2023] px-6 py-3 flex items-center justify-between shadow-sm">
+      <div className="sticky top-0 z-20 bg-[#0f111a]/80 backdrop-blur-xl border-b border-white/10 px-6 py-3 flex items-center justify-between shadow-sm">
         <button
           onClick={() => {
             sound.playReaction();
             onBack();
           }}
-          className="flex items-center space-x-2 text-xs font-bold text-[#5865F2] hover:text-white bg-[#5865F2]/10 hover:bg-[#5865F2] px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
+          className="flex items-center space-x-2 text-xs font-bold text-purple-400 hover:text-white bg-purple-500/10 hover:bg-purple-600 px-3.5 py-1.5 rounded-full transition-all cursor-pointer border border-purple-500/20"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Назад ко всем фанфикам</span>
+          <span>Назад к архиву</span>
         </button>
 
         <div className="flex items-center space-x-2">
@@ -74,7 +68,7 @@ export const MemberProfilePage: React.FC<MemberProfilePageProps> = ({
                 }
               }}
               title="Удалить этого созданного персонажа"
-              className="p-1.5 rounded-lg text-red-400 hover:bg-red-500/20 transition-colors"
+              className="p-1.5 rounded-full text-rose-400 hover:bg-rose-500/20 transition-colors"
             >
               <Trash2 className="w-4 h-4" />
             </button>
@@ -85,7 +79,7 @@ export const MemberProfilePage: React.FC<MemberProfilePageProps> = ({
               sound.playJoin();
               onWriteFicAboutMember(member.name);
             }}
-            className="flex items-center space-x-1.5 px-3.5 py-1.5 bg-[#5865F2] hover:bg-[#4752c4] text-white text-xs font-bold rounded-lg shadow-md shadow-[#5865F2]/20 transition-all cursor-pointer"
+            className="flex items-center space-x-1.5 px-4 py-1.5 bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-xs font-bold rounded-full shadow-lg shadow-purple-500/25 transition-all cursor-pointer"
           >
             <PenTool className="w-3.5 h-3.5" />
             <span>Написать фанфик про {member.displayName}</span>
@@ -94,28 +88,28 @@ export const MemberProfilePage: React.FC<MemberProfilePageProps> = ({
       </div>
 
       <div className="max-w-5xl w-full mx-auto p-6 space-y-6">
-        {/* Discord Profile Card Banner */}
-        <div className="bg-[#2b2d31] rounded-2xl border border-[#1f2023] overflow-hidden shadow-xl">
+        {/* Profile Card Banner */}
+        <div className="rounded-3xl bg-[#141624]/90 border border-white/10 overflow-hidden shadow-2xl shadow-purple-500/10 backdrop-blur-xl">
           {/* Top colored cover */}
           <div 
-            className="h-32 sm:h-40 w-full relative"
+            className="h-36 sm:h-44 w-full relative"
             style={{ 
-              background: `linear-gradient(135deg, ${member.roleColor}90 0%, #1e1f22 70%, #000000 100%)` 
+              background: `linear-gradient(135deg, ${member.roleColor}99 0%, #181a28 65%, #0c0d14 100%)` 
             }}
           >
-            <div className="absolute top-4 right-4 flex items-center space-x-1.5 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-xs font-semibold text-white">
+            <div className="absolute top-4 right-4 flex items-center space-x-1.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-xs font-semibold text-white">
               <Shield className="w-3.5 h-3.5" style={{ color: member.roleColor }} />
               <span>{member.category}</span>
             </div>
           </div>
 
           {/* Profile Details Bar */}
-          <div className="px-6 pb-6 pt-0 relative">
-            {/* Avatar overlapping banner */}
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between -mt-16 sm:-mt-20 mb-4 gap-4">
+          <div className="px-6 sm:px-8 pb-8 pt-0 relative">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between -mt-14 sm:-mt-16 mb-5 gap-4">
               <div className="flex items-end space-x-4">
+                {/* Monogram Badge */}
                 <div 
-                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center border-4 border-[#2b2d31] shadow-2xl font-black text-2xl text-white shrink-0"
+                  className="w-18 h-18 sm:w-22 sm:h-22 rounded-2xl flex items-center justify-center border-4 border-[#141624] shadow-2xl font-black text-2xl sm:text-3xl text-white shrink-0 shadow-purple-500/30"
                   style={{ backgroundColor: member.roleColor }}
                 >
                   {member.displayName.slice(0, 1).toUpperCase()}
@@ -123,50 +117,50 @@ export const MemberProfilePage: React.FC<MemberProfilePageProps> = ({
 
                 <div className="pb-1 min-w-0">
                   <div className="flex items-center space-x-2">
-                    <h1 className="text-xl sm:text-2xl font-black text-white truncate">
+                    <h1 className="text-xl sm:text-2xl font-black text-white truncate tracking-tight">
                       {member.name}
                     </h1>
                   </div>
                   <div className="flex items-center space-x-2 mt-1">
                     <span
-                      className="text-xs font-bold px-2.5 py-0.5 rounded uppercase tracking-wider"
+                      className="text-xs font-bold px-3 py-0.5 rounded-full uppercase tracking-wider"
                       style={{
-                        backgroundColor: `${member.roleColor}25`,
+                        backgroundColor: `${member.roleColor}20`,
                         color: member.roleColor,
-                        border: `1px solid ${member.roleColor}50`
+                        border: `1px solid ${member.roleColor}40`
                       }}
                     >
                       {member.role}
                     </span>
-                    <span className="text-xs text-[#949ba4]">#{member.displayName}</span>
+                    <span className="text-xs text-zinc-400">#{member.displayName}</span>
                   </div>
                 </div>
               </div>
 
               {/* Stats badges */}
-              <div className="flex items-center gap-3 bg-[#1e1f22] p-2.5 rounded-xl border border-[#3f4147] text-xs">
-                <div className="text-center px-2">
+              <div className="flex items-center gap-3 bg-[#0d0f17]/80 p-2.5 rounded-2xl border border-white/10 text-xs">
+                <div className="text-center px-3">
                   <div className="font-extrabold text-white text-base">{memberStories.length}</div>
-                  <div className="text-[10px] text-[#949ba4] uppercase font-bold">Фанфиков</div>
+                  <div className="text-[10px] text-zinc-400 uppercase font-bold">Фанфиков</div>
                 </div>
-                <div className="w-px h-8 bg-[#3f4147]" />
-                <div className="text-center px-2">
+                <div className="w-px h-8 bg-white/10" />
+                <div className="text-center px-3">
                   <div className="font-extrabold text-rose-400 text-base">{totalLikes}</div>
-                  <div className="text-[10px] text-[#949ba4] uppercase font-bold">Лайков</div>
+                  <div className="text-[10px] text-zinc-400 uppercase font-bold">Лайков</div>
                 </div>
-                <div className="w-px h-8 bg-[#3f4147]" />
-                <div className="text-center px-2">
-                  <div className="font-extrabold text-[#5865F2] text-base">{totalViews}</div>
-                  <div className="text-[10px] text-[#949ba4] uppercase font-bold">Просмотров</div>
+                <div className="w-px h-8 bg-white/10" />
+                <div className="text-center px-3">
+                  <div className="font-extrabold text-purple-400 text-base">{totalViews}</div>
+                  <div className="text-[10px] text-zinc-400 uppercase font-bold">Просмотров</div>
                 </div>
               </div>
             </div>
 
             {/* Status & Activity Box */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
-              <div className="bg-[#1e1f22] p-3 rounded-xl border border-[#3f4147]">
-                <span className="text-[10px] font-bold text-[#949ba4] uppercase tracking-wider block mb-1">
-                  Пользовательский статус:
+              <div className="bg-[#0f111c] p-3.5 rounded-2xl border border-white/5">
+                <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">
+                  Статус:
                 </span>
                 <span className="text-xs text-emerald-400 font-semibold italic">
                   «{member.statusText}»
@@ -174,13 +168,13 @@ export const MemberProfilePage: React.FC<MemberProfilePageProps> = ({
               </div>
 
               {member.gameStatus && (
-                <div className="bg-[#1e1f22] p-3 rounded-xl border border-[#3f4147] flex items-center space-x-2">
-                  <Gamepad2 className="w-5 h-5 text-[#5865F2] shrink-0" />
+                <div className="bg-[#0f111c] p-3.5 rounded-2xl border border-white/5 flex items-center space-x-2.5">
+                  <Gamepad2 className="w-5 h-5 text-purple-400 shrink-0" />
                   <div className="min-w-0">
-                    <span className="text-[10px] font-bold text-[#949ba4] uppercase tracking-wider block">
-                      Текущая активность:
+                    <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">
+                      Активность / Игра:
                     </span>
-                    <span className="text-xs text-white truncate block">
+                    <span className="text-xs text-zinc-200 truncate block">
                       {member.gameStatus}
                     </span>
                   </div>
@@ -189,22 +183,24 @@ export const MemberProfilePage: React.FC<MemberProfilePageProps> = ({
             </div>
 
             {/* Bio */}
-            <div className="bg-[#1e1f22] p-4 rounded-xl border border-[#3f4147] mb-4">
-              <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-1.5 flex items-center space-x-1.5">
-                <BookOpen className="w-3.5 h-3.5 text-[#5865F2]" />
-                <span>О персонаже и серверном лоре:</span>
-              </h3>
-              <p className="text-xs text-[#b5bac1] leading-relaxed">
-                {member.bio}
-              </p>
-            </div>
+            {member.bio && (
+              <div className="bg-[#0f111c] p-4 rounded-2xl border border-white/5 mb-4">
+                <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-1.5 flex items-center space-x-1.5">
+                  <BookOpen className="w-3.5 h-3.5 text-purple-400" />
+                  <span>О персонаже:</span>
+                </h3>
+                <p className="text-xs text-zinc-300 leading-relaxed">
+                  {member.bio}
+                </p>
+              </div>
+            )}
 
             {/* Quotes section */}
             {member.quotes && member.quotes.length > 0 && (
-              <div className="bg-[#1e1f22] p-4 rounded-xl border border-[#3f4147]">
+              <div className="bg-[#0f111c] p-4 rounded-2xl border border-white/5">
                 <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-2 flex items-center space-x-1.5">
                   <Quote className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Коронные цитаты из войса:</span>
+                  <span>Коронные цитаты:</span>
                 </h3>
                 <div className="space-y-1.5">
                   {member.quotes.map((q, idx) => (
@@ -224,7 +220,7 @@ export const MemberProfilePage: React.FC<MemberProfilePageProps> = ({
             <h2 className="text-lg font-bold text-white">
               Фанфики с участием {member.displayName}
             </h2>
-            <span className="text-xs bg-[#2b2d31] px-2.5 py-0.5 rounded-full text-[#949ba4] font-semibold border border-[#3f4147]">
+            <span className="text-xs bg-purple-500/15 text-purple-300 px-3 py-0.5 rounded-full font-semibold border border-purple-500/30">
               {memberStories.length}
             </span>
           </div>
@@ -234,7 +230,7 @@ export const MemberProfilePage: React.FC<MemberProfilePageProps> = ({
               sound.playJoin();
               onWriteFicAboutMember(member.name);
             }}
-            className="text-xs font-semibold text-[#5865F2] hover:text-white hover:underline flex items-center space-x-1"
+            className="text-xs font-semibold text-purple-400 hover:text-white hover:underline flex items-center space-x-1"
           >
             <span>+ Добавить новый фанфик</span>
           </button>
@@ -242,20 +238,20 @@ export const MemberProfilePage: React.FC<MemberProfilePageProps> = ({
 
         {/* Stories Grid */}
         {memberStories.length === 0 ? (
-          <div className="text-center py-14 px-4 bg-[#2b2d31]/50 rounded-2xl border border-dashed border-[#3f4147]">
+          <div className="text-center py-16 px-4 bg-[#141624]/60 rounded-3xl border border-dashed border-white/10">
             <div className="text-4xl mb-3">📝</div>
             <h3 className="text-base font-bold text-white mb-1">
               Про {member.displayName} ещё нет фанфиков!
             </h3>
-            <p className="text-xs text-[#949ba4] max-w-md mx-auto mb-4">
-              Исправьте эту историческую несправедливость и напишите первую главу в историю этого участника сервера!
+            <p className="text-xs text-zinc-400 max-w-md mx-auto mb-5 leading-relaxed">
+              Исправьте это и напишите первую историю про этого персонажа!
             </p>
             <button
               onClick={() => {
                 sound.playJoin();
                 onWriteFicAboutMember(member.name);
               }}
-              className="px-4 py-2 rounded-lg bg-[#5865F2] hover:bg-[#4752c4] text-white text-xs font-bold shadow-md shadow-[#5865F2]/20 transition-all cursor-pointer"
+              className="px-5 py-2 rounded-full bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-xs font-bold shadow-lg shadow-purple-500/25 transition-all cursor-pointer"
             >
               Написать первый фанфик про {member.displayName}
             </button>

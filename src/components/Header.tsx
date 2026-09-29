@@ -6,8 +6,8 @@ import {
   VolumeX, 
   Users, 
   Sparkles,
-  Flame,
-  Radio
+  Radio,
+  Plus
 } from 'lucide-react';
 import { sound } from '../utils/soundEffects';
 
@@ -15,64 +15,63 @@ interface HeaderProps {
   searchQuery: string;
   onSearchChange: (q: string) => void;
   onOpenCreateModal: () => void;
-  onOpenCharactersModal: () => void;
+  onOpenAddMemberModal: () => void;
   soundEnabled: boolean;
   onToggleSound: () => void;
   totalStories: number;
+  totalMembers: number;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   searchQuery,
   onSearchChange,
   onOpenCreateModal,
-  onOpenCharactersModal,
+  onOpenAddMemberModal,
   soundEnabled,
   onToggleSound,
   totalStories,
+  totalMembers,
 }) => {
   return (
-    <header className="h-16 bg-[#2b2d31] border-b border-[#1f2023] px-4 flex items-center justify-between sticky top-0 z-30 shadow-md">
-      {/* Left: Server Identity */}
+    <header className="sticky top-0 z-40 bg-[#0f111a]/80 backdrop-blur-xl border-b border-white/10 px-4 sm:px-6 h-16 flex items-center justify-between transition-all">
+      {/* Left: Server Brand */}
       <div className="flex items-center space-x-3">
-        <div className="flex items-center space-x-2">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-rose-900 via-rose-700 to-red-500 flex items-center justify-center shadow-lg border border-rose-500/30 text-xl font-bold">
+        <div className="flex items-center space-x-2.5 cursor-pointer group">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-rose-500 via-purple-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-purple-500/25 border border-white/20 text-lg group-hover:scale-105 transition-transform">
             🌹
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <span className="font-extrabold text-white text-lg tracking-wider">ṦŁẌ</span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-[#5865F2]/20 text-[#5865F2] font-semibold border border-[#5865F2]/40">
-                Библиотека SLX
+              <span className="font-extrabold text-white text-base tracking-wider">ṦŁẌ</span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-gradient-to-r from-purple-500/20 to-indigo-500/20 text-purple-300 font-semibold border border-purple-500/30">
+                Fanfics
               </span>
             </div>
-            <div className="flex items-center space-x-2 text-xs text-[#949ba4]">
-              <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span>В сети: 6 мемберов</span>
-              <span className="text-[#4e5058]">•</span>
-              <span className="flex items-center text-emerald-400">
-                <Radio className="w-3 h-3 mr-1 animate-pulse" />
-                Мэрия TERPYL (2:42:55)
-              </span>
+            <div className="flex items-center space-x-2 text-[11px] text-zinc-400">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Сервер активен</span>
+              <span className="text-zinc-600">•</span>
+              <span className="text-zinc-400">{totalStories} историй</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Center: Search Bar */}
+      {/* Center: Search input */}
       <div className="flex-1 max-w-md mx-4 hidden md:block">
         <div className="relative">
-          <Search className="w-4 h-4 text-[#949ba4] absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Искать фанфики, персонажей, фразы из войса..."
+            placeholder="Поиск по архиву фанфиков..."
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full bg-[#1e1f22] text-sm text-[#dbdee1] placeholder-[#80848e] rounded-md pl-9 pr-4 py-2 border border-[#3f4147] focus:outline-none focus:border-[#5865F2] focus:ring-1 focus:ring-[#5865F2] transition-colors"
+            className="w-full bg-[#181a26]/90 text-xs text-white placeholder-zinc-500 rounded-full pl-9 pr-4 py-2 border border-white/10 focus:outline-none focus:border-purple-500/60 focus:ring-2 focus:ring-purple-500/20 transition-all shadow-inner"
           />
           {searchQuery && (
             <button 
               onClick={() => onSearchChange('')}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-[#949ba4] hover:text-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-zinc-400 hover:text-white"
             >
               ✕
             </button>
@@ -80,7 +79,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Right: Actions */}
+      {/* Right: Actions in sleek pill style */}
       <div className="flex items-center space-x-2">
         {/* Sound toggle */}
         <button
@@ -88,38 +87,38 @@ export const Header: React.FC<HeaderProps> = ({
             onToggleSound();
             sound.playReaction();
           }}
-          title={soundEnabled ? 'Звуковые эффекты Discord включены' : 'Звук выключен'}
-          className={`p-2 rounded-lg transition-colors border ${
+          title={soundEnabled ? 'Звуковые эффекты включены' : 'Звук выключен'}
+          className={`p-2 rounded-full border transition-all ${
             soundEnabled 
-              ? 'bg-[#35373c] text-emerald-400 border-emerald-500/30 hover:bg-[#3d3f45]' 
-              : 'bg-[#1e1f22] text-[#80848e] border-[#313338] hover:text-[#dbdee1]'
+              ? 'bg-purple-500/15 text-purple-400 border-purple-500/30 hover:bg-purple-500/25 shadow-sm' 
+              : 'bg-[#181a26] text-zinc-500 border-white/5 hover:text-white'
           }`}
         >
           {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
         </button>
 
-        {/* Member Dossiers */}
+        {/* Add Member button */}
         <button
           onClick={() => {
             sound.playPing();
-            onOpenCharactersModal();
+            onOpenAddMemberModal();
           }}
-          className="flex items-center space-x-1.5 px-3 py-1.5 bg-[#35373c] hover:bg-[#3d3f45] text-[#dbdee1] hover:text-white text-xs font-medium rounded-md border border-[#3f4147] transition-all"
+          className="hidden sm:flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-zinc-200 hover:text-white text-xs font-semibold border border-white/10 transition-all hover:border-white/20"
         >
-          <Users className="w-3.5 h-3.5 text-[#5865F2]" />
-          <span className="hidden sm:inline">Досье Участников</span>
+          <Plus className="w-3.5 h-3.5 text-emerald-400" />
+          <span>Персонаж</span>
         </button>
 
-        {/* Write Fanfic */}
+        {/* Write Fanfic button with gradient glow */}
         <button
           onClick={() => {
             sound.playJoin();
             onOpenCreateModal();
           }}
-          className="flex items-center space-x-1.5 px-3.5 py-1.5 bg-[#5865F2] hover:bg-[#4752c4] text-white text-xs font-semibold rounded-md shadow-md shadow-[#5865F2]/20 hover:shadow-[#5865F2]/40 transition-all cursor-pointer"
+          className="flex items-center space-x-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-xs font-bold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all cursor-pointer hover:scale-[1.02] active:scale-95"
         >
-          <BookPlus className="w-4 h-4" />
-          <span>Написать Фанфик</span>
+          <BookPlus className="w-3.5 h-3.5" />
+          <span>Написать фанфик</span>
         </button>
       </div>
     </header>

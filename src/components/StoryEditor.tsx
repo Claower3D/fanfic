@@ -147,31 +147,31 @@ export const StoryEditor: React.FC<StoryEditorProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-[#2b2d31] border border-[#1f2023] rounded-2xl w-full max-w-4xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-[#121422] border border-white/10 rounded-3xl w-full max-w-4xl max-h-[92vh] flex flex-col shadow-2xl shadow-purple-500/15 overflow-hidden">
         {/* Modal Header */}
-        <div className="px-6 py-4 border-b border-[#1f2023] bg-[#232428] flex items-center justify-between">
-          <div className="flex items-center space-x-2">
+        <div className="px-6 py-4 border-b border-white/10 bg-[#0d0e17] flex items-center justify-between">
+          <div className="flex items-center space-x-2.5">
             <span className="text-xl">✍️</span>
             <div>
               <h2 className="text-base font-bold text-white">Написать фанфик для SLX</h2>
-              <p className="text-xs text-[#949ba4]">Добавьте новую главу в летопись Discord сервера</p>
+              <p className="text-xs text-zinc-400">Добавьте новую главу в летопись Discord сервера</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-[#949ba4] hover:text-white hover:bg-[#35373c] transition-colors"
+            className="p-1.5 rounded-full text-zinc-400 hover:text-white hover:bg-white/10 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSave} className="flex-1 overflow-y-auto p-6 space-y-5 text-xs text-[#dbdee1]">
+        <form onSubmit={handleSave} className="flex-1 overflow-y-auto p-6 space-y-5 text-xs text-zinc-300">
           {/* Main Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-[11px] uppercase font-bold tracking-wider text-[#949ba4] mb-1">
+              <label className="block text-[11px] uppercase font-bold tracking-wider text-zinc-400 mb-1">
                 Название фанфика:
               </label>
               <input
